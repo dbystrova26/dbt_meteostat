@@ -2,7 +2,7 @@
     sources:
     
     - name: weather_data
-      schema: #s_dariabystrova#
+      schema: s_dariabystrova
       tables:
         - name: weather_daily_raw
         - name: weather_hourly_raw
