@@ -1,4 +1,4 @@
-WITH daily_raw AS (
+  WITH daily_raw AS (
         SELECT
                 airport_code,
                 station_id,
@@ -21,3 +21,5 @@ WITH daily_raw AS (
                 (json_data->>'tsun')::INTEGER AS sun_minutes
         FROM daily_raw
     )
+    SELECT * 
+    FROM daily_flattened
