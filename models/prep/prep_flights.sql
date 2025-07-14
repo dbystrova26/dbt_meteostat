@@ -28,4 +28,4 @@ flights_cleaned AS (
     FROM flights_one_month
 )
 SELECT * 
-FROM flights_cleaned;
+FROM flights_cleaned
