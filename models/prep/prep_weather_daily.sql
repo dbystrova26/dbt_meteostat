@@ -15,10 +15,10 @@ WITH daily_data AS (
     add_more_features AS (
         SELECT *
     		, (CASE 
-    			WHEN month_name IN ('December', 'January', 'February')  THEN 'winter'
-    			WHEN month_name IN ('March', 'April', 'May') THEN 'spring'
-                WHEN month_name IN ('June', 'July', 'August') THEN 'summer'
-                WHEN month_name IN ('September', 'October', 'November') THEN 'autumn'
+    			WHEN month_name IN ('12', '1', '2')  THEN 'winter'
+    			WHEN month_name IN ('3', '4', '5') THEN 'spring'
+                WHEN month_name IN ('6', '7', '8') THEN 'summer'
+                WHEN month_name IN ('9', '10', '11') THEN 'autumn'
     		END) AS season
         FROM add_features
     )
