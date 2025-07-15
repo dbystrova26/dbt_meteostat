@@ -70,7 +70,6 @@ final AS (
    SELECT c.*
         , a.region
         , a.country
-        , a.name
    FROM combined c
    LEFT JOIN {{ ref('prep_airports') }} a USING (faa)
 )
