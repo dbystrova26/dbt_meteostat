@@ -35,7 +35,7 @@ route_stats AS (
 
 joined_with_airports AS (
     SELECT 
-        route_stats.*, -- bring all columns from route_stats
+        r.*, -- bring all columns from route_stats
         ao.country AS origin_country,--bring in additional columns from the joined tables
         ao.region AS origin_region,
         ad.country AS dest_country,
