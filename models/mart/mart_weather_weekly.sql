@@ -1,27 +1,23 @@
-WITH daily AS (
-    SELECT 
-        *,
-        DATE_PART('week', date) AS calendar_week,
-        DATE_PART('year', date) AS year_extracted
-    FROM {{ ref('prep_weather_daily') }}
+WITH daily_data AS (
+        SELECT * 
+        FROM {{ref('prep_weather_daily')}}
+),
+weekly_aggregation AS (
+        SELECT airport_code, station_id, date_year, cw
+            ,AVG(avg_temp_c)::NUMERIC(4,2) AS avg_temp_c
+            ,MIN(min_temp_c)::NUMERIC(4,2) AS min_temp_c
+            ,MAX(max_temp_c)::NUMERIC(4,2) AS max_temp_c
+            ,SUM(precipitation_mm) AS total_prec_mm
+            ,SUM(max_snow_mm) AS total_max_snow_mm
+            ,AVG(avg_wind_direction)::NUMERIC(5,2) AS avg_wind_direction
+            ,AVG(avg_wind_speed_kmh)::NUMERIC(5,2) AS avg_wind_speed_kmh
+            ,MAX(wind_peakgust_kmh)::NUMERIC(5,2) AS wind_peakgust_kmh
+            ,AVG(avg_pressure_hpa)::NUMERIC(6,2) AS avg_pressure_hpa
+            ,SUM(sun_minutes) AS total_sun_minutes
+            ,MODE() WITHIN GROUP (ORDER BY date_month) AS month
+            ,MODE() WITHIN GROUP (ORDER BY month_name) AS month_name
+            ,MODE() WITHIN GROUP (ORDER BY season) AS season
+        FROM daily_data
+        GROUP BY airport_code, station_id, date_year, cw
 )
-
-SELECT
-    d.airport_code,
-    d.year_extracted AS date_year,
-    d.calendar_week,
-
-    -- Aggregated metrics
-    AVG(d.avg_temp_c) AS avg_temp_c,
-    MIN(d.min_temp_c) AS min_temp_c,
-    MAX(d.max_temp_c) AS max_temp_c,
-    SUM(d.precipitation_mm) AS total_precipitation_mm,
-    MAX(d.max_snow_mm) AS max_snow_mm,
-    SUM(d.sun_minutes) AS total_sun_minutes,
-    AVG(d.avg_wind_direction) AS avg_wind_direction,
-    AVG(d.avg_wind_speed_kmh) AS avg_wind_speed_kmh,
-    MAX(d.wind_peakgust_kmh) AS max_wind_peakgust_kmh
-
-FROM daily d
-GROUP BY d.airport_code, d.year_extracted, d.calendar_week
-ORDER BY d.airport_code, d.year_extracted, d.calendar_week
+SELECT * FROM weekly_aggregation
