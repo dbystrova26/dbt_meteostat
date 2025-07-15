@@ -134,7 +134,7 @@ weather_mart AS (
         w.avg_wind_direction,
         w.avg_wind_speed_kmh,
         w.wind_peakgust_kmh
-    FROM weather w
+    FROM prep_weather_daily w
     LEFT JOIN combined c 
       ON w.airport_code = c.airport_code AND w.date = c.date
 ),
@@ -152,4 +152,4 @@ final AS (
 
 SELECT *
 FROM final
-ORDER BY date, airport_code;
+ORDER BY date, airport_code
