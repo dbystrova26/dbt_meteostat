@@ -134,7 +134,7 @@ weather_mart AS (
         w.avg_wind_direction,
         w.avg_wind_speed_kmh,
         w.wind_peakgust_kmh
-    FROM prep_weather_daily w
+    FROM {{ ref('prep_weather_daily') }} w
     LEFT JOIN combined c 
       ON w.airport_code = c.airport_code AND w.date = c.date
 ),
