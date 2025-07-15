@@ -5,7 +5,7 @@ SELECT airline
 , ROUND(AVG(cancelled::INT)*100,2) AS cancelled_rate_pct
 , ROUND(AVG(diverted::INT)*100,2) AS diversion_rate_pct
 FROM {{ ref('prep_flights') }}
-GROUP BY airlines
+GROUP BY airline
 )
 
 SELECT *
